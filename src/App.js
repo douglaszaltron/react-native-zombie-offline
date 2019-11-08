@@ -5,9 +5,7 @@ import database from './stores/database';
 
 const App = () => {
   return (
-    <DatabaseProvider database={database}>
       <AppNavigator />
-    </DatabaseProvider>
   );
 };
 
