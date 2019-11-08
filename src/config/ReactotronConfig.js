@@ -2,8 +2,8 @@ import Reactotron, {asyncStorage} from 'reactotron-react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const configure = {
-  name: 'Toolbox',
-  host: '192.168.56.1',
+  name: 'Reactotron',
+  host: '192.168.100.8',
 };
 
 const storage = {

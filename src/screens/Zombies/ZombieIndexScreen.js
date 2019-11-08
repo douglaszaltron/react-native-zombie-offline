@@ -42,7 +42,11 @@ const Divider = () => <View style={styles.divider} />;
 
 const ZombieIndexScreen = () => {
   const {navigate} = useNavigation();
-  // const database = useDatabase();
+  const database = useDatabase();
+
+  const armors = database.collections.get('armors');
+
+  console.tron.log(armors);
 
   useEffect(() => {}, []);
 

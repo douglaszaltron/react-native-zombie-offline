@@ -1,4 +1,8 @@
 {
-  "cSpell.ignoreWords": ["nozbe", "watermelondb"],
+  "cSpell.ignoreWords": [
+    "nozbe",
+    "reactotron",
+    "watermelondb"
+  ],
   "javascript.implicitProjectConfig.experimentalDecorators": true
 }
