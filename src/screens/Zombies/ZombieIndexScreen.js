@@ -1,36 +1,15 @@
-import React, {useEffect} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useNavigation} from 'react-navigation-hooks';
+import React, {useEffect, useState} from 'react';
+import {
+  FlatList,
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useDatabase} from '@nozbe/watermelondb/hooks';
-
+import {synchronize} from '@nozbe/watermelondb/sync';
 import Surface from '../../containers/Surface';
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d73',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d74',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d75',
-    title: 'Third Item',
-  },
-];
 
 const Item = ({title}) => (
   <View style={styles.item}>
@@ -41,22 +20,62 @@ const Item = ({title}) => (
 const Divider = () => <View style={styles.divider} />;
 
 const ZombieIndexScreen = () => {
-  const {navigate} = useNavigation();
+  const [items] = useState();
+
   const database = useDatabase();
 
-  const armors = database.collections.get('armors');
+  useEffect(() => {
+    sync();
+  }, []);
 
-  console.tron.log(armors);
+  const sync = async () => {
+    console.tron.log(database);
+    await synchronize({
+      database,
+      pullChanges: async ({lastPulledAt}) => {
+        const response = {
+          changes: [
+            {
+              armors: {
+                created: [
+                  {
+                    id: 1,
+                    name: 'Baseball bats',
+                    defense_points: 1,
+                    durability: 100,
+                    price: 1300,
+                    created_at: 1573244196012,
+                    updated_at: null,
+                  },
+                ],
+                updated: [],
+                deleted: [],
+              },
+            },
+          ],
+          timestamp: 1573243988389,
+        };
 
-  useEffect(() => {}, []);
+        const {changes, timestamp} = response;
+
+        return {changes, timestamp};
+      },
+      pushChanges: async ({changes, lastPulledAt}) => {
+        const response = {changes: changes, timestamp: lastPulledAt};
+        console.tron.log(response, 'offline');
+      },
+      sendCreatedAsUpdated: true,
+    });
+  };
 
   return (
     <Surface>
+      <Button title="Atualizar" onPress={sync} />
       <FlatList
-        data={DATA}
+        data={items}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => {}}>
-            <Item title={item.title} />
+            <Item title={item.name} />
           </TouchableOpacity>
         )}
         ItemSeparatorComponent={() => <Divider />}

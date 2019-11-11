@@ -1,8 +1,13 @@
 {
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBorder": "#7159c1",
+    "activityBar.activeBackground": "#7159c1"
+  },
   "cSpell.ignoreWords": [
+    "config",
     "nozbe",
     "reactotron",
     "watermelondb"
-  ],
-  "javascript.implicitProjectConfig.experimentalDecorators": true
+  ]
 }

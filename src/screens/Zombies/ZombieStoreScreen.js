@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Button, Text, View} from 'react-native';
+import {Button, View} from 'react-native';
 import {useNavigation} from 'react-navigation-hooks';
 
 const ZombieStoreScreen = () => {
@@ -10,7 +10,6 @@ const ZombieStoreScreen = () => {
   return (
     <View>
       <Button title="Listar" onPress={() => navigate('ZombieIndexScreen')} />
-      <Text>Criar um novo zombie</Text>
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider';
 import AppNavigator from './routes';
-import database from './stores/database';
+import database from './database';
 
 if (__DEV__) {
   import('./config/ReactotronConfig');
