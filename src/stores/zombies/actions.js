@@ -1,4 +1,4 @@
-import Types from './types';
+import * as Types from './types';
 
 /**
  * Display a refresh listing of the resource.

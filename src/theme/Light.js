@@ -5,12 +5,12 @@ export default {
   disabled: 'rgba(0, 0, 0, 0.38)',
   divider: 'rgba(0, 0, 0, 0.20)',
 
-  primary: '#042C94',
-  primaryVariant: '#001A80',
+  primary: '#6200EE',
+  primaryVariant: '#3700B3',
   onPrimary: '#FFFFFF',
 
-  secondary: '#CFF7FA',
-  secondaryVariant: '#528383',
+  secondary: '#03DAC6',
+  secondaryVariant: '#018786',
   onSecondary: '#000000',
 
   background: '#FFFFFF',
@@ -23,4 +23,6 @@ export default {
   onError: '#FFFFFF',
 
   backdrop: 'rgba(0, 0, 0, 0.40)',
+
+  barStyle: 'light-content',
 };

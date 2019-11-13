@@ -1,8 +1,8 @@
 import React from 'react';
-import {View} from 'react-native';
+import Surface from '../../components/StyledSurface';
 
 const SignUpScreen = () => {
-  return <View />;
+  return <Surface />;
 };
 
 SignUpScreen.navigationOptions = () => {

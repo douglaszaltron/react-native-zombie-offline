@@ -1,108 +1,89 @@
-import React, {useEffect, useState} from 'react';
-import {
-  FlatList,
-  Button,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {useDatabase} from '@nozbe/watermelondb/hooks';
-import {synchronize} from '@nozbe/watermelondb/sync';
-import Surface from '../../containers/Surface';
+import React, {useEffect} from 'react';
+import {FlatList, TouchableOpacity} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+import * as Zombie from '../../stores/zombies/actions';
 
-const Divider = () => <View style={styles.divider} />;
+import Surface from '../../components/StyledSurface';
+import Divider from '../../components/StyledDivider';
+import ListItem from '../../components/StyledListItem';
+import ListEmpty from '../../components/StyledListEmpty';
+import Loading from '../../components/StyledLoading';
+import HeaderButton from '../../components/StyledHeaderButton';
 
 const ZombieIndexScreen = () => {
-  const [items] = useState();
+  const dispatch = useDispatch();
+  const zombies = useSelector(value => value.zombies);
 
-  const database = useDatabase();
+  const {isLoading, refreshing, items} = zombies;
 
   useEffect(() => {
-    sync();
+    dispatch(Zombie.index());
   }, []);
 
-  const sync = async () => {
-    console.tron.log(database);
-    await synchronize({
-      database,
-      pullChanges: async ({lastPulledAt}) => {
-        const response = {
-          changes: [
-            {
-              armors: {
-                created: [
-                  {
-                    id: 1,
-                    name: 'Baseball bats',
-                    defense_points: 1,
-                    durability: 100,
-                    price: 1300,
-                    created_at: 1573244196012,
-                    updated_at: null,
-                  },
-                ],
-                updated: [],
-                deleted: [],
-              },
-            },
-          ],
-          timestamp: 1573243988389,
-        };
+  const onRefresh = () => {
+    if (isLoading) {
+      return;
+    }
 
-        const {changes, timestamp} = response;
+    dispatch(Zombie.refresh());
+  };
 
-        return {changes, timestamp};
-      },
-      pushChanges: async ({changes, lastPulledAt}) => {
-        const response = {changes: changes, timestamp: lastPulledAt};
-        console.tron.log(response, 'offline');
-      },
-      sendCreatedAsUpdated: true,
-    });
+  const onDelete = id => {
+    if (isLoading) {
+      return;
+    }
+
+    dispatch(Zombie.destroy(id));
+  };
+
+  const renderLoading = () => {
+    return isLoading === true && <Loading />;
+  };
+
+  const renderListEmpty = () => {
+    return isLoading === false && <ListEmpty title="Sem registros!" />;
+  };
+
+  const renderDivider = () => {
+    return <Divider />;
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <TouchableOpacity onPress={() => onDelete(item.id)}>
+        <ListItem title={item.name} subtitle={item.id} />
+      </TouchableOpacity>
+    );
   };
 
   return (
     <Surface>
-      <Button title="Atualizar" onPress={sync} />
       <FlatList
         data={items}
-        renderItem={({item}) => (
-          <TouchableOpacity onPress={() => {}}>
-            <Item title={item.name} />
-          </TouchableOpacity>
-        )}
-        ItemSeparatorComponent={() => <Divider />}
-        keyExtractor={item => item.id}
+        initialNumToRender={25}
+        keyExtractor={item => String(item.id)}
+        ItemSeparatorComponent={renderDivider}
+        ListEmptyComponent={renderListEmpty}
+        ListFooterComponent={renderLoading}
+        onRefresh={onRefresh}
+        refreshing={refreshing}
+        renderItem={renderItem}
       />
     </Surface>
   );
 };
 
-const styles = StyleSheet.create({
-  item: {
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-  },
-  title: {
-    fontSize: 16,
-    color: 'rgba(0, 0, 0, 0.87)',
-  },
-  divider: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(0, 0, 0, 0.20)',
-    marginLeft: 16,
-  },
-});
-
-ZombieIndexScreen.navigationOptions = () => {
-  return {title: 'Zombies'};
+ZombieIndexScreen.navigationOptions = ({navigation}) => {
+  return {
+    title: 'Zombies',
+    headerRight: () => (
+      <HeaderButton
+        title={'NOVO'}
+        onPress={() => navigation.navigate('ZombieStoreScreen')}
+      />
+    ),
+  };
 };
 
 export default ZombieIndexScreen;

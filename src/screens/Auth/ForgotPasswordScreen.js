@@ -1,8 +1,8 @@
 import React from 'react';
-import {View} from 'react-native';
+import Surface from '../../components/StyledSurface';
 
 const ForgotPasswordScreen = () => {
-  return <View />;
+  return <Surface />;
 };
 
 ForgotPasswordScreen.navigationOptions = () => {
