@@ -36,8 +36,8 @@ const ZombieStoreScreen = () => {
           blurOnSubmit={false}
           onChangeText={value => onChangeText('name', value)}
           onSubmitEditing={() => this.defense_points.focus()}
-          placeholder="Nome"
-          labelText="Nome"
+          placeholder={'Nome'}
+          labelText={'Nome'}
           returnKeyType={'next'}
           style={styles.input}
           value={values.name}
@@ -45,9 +45,9 @@ const ZombieStoreScreen = () => {
       </View>
       <View style={styles.group}>
         <TextInput
-          ref={ref => (this.defense_points = ref)}
-          placeholder="Pontos de defesa"
-          labelText="Pontos de defesa"
+          refFocus={ref => (this.defense_points = ref)}
+          placeholder={'Pontos de defesa'}
+          labelText={'Pontos de defesa'}
           onChangeText={value => onChangeText('defense_points', value)}
           value={values.defense_points}
           returnKeyType={'next'}
@@ -58,9 +58,9 @@ const ZombieStoreScreen = () => {
       </View>
       <View style={styles.group}>
         <TextInput
-          ref={ref => (this.durability = ref)}
-          placeholder="Durabilidade"
-          labelText="Durabilidade"
+          refFocus={ref => (this.durability = ref)}
+          placeholder={'Durabilidade'}
+          labelText={'Durabilidade'}
           onChangeText={value => onChangeText('durability', value)}
           value={values.durability}
           returnKeyType={'next'}
@@ -71,9 +71,9 @@ const ZombieStoreScreen = () => {
       </View>
       <View style={styles.group}>
         <TextInput
-          ref={ref => (this.price = ref)}
-          placeholder="Preço"
-          labelText="Preço"
+          refFocus={ref => (this.price = ref)}
+          placeholder={'Preço'}
+          labelText={'Preço'}
           onChangeText={value => onChangeText('price', value)}
           value={values.price}
           returnKeyType={'done'}
@@ -83,7 +83,7 @@ const ZombieStoreScreen = () => {
         />
       </View>
       <View style={styles.group}>
-        <Button color={Theme.primary} title="Cadastrar" onPress={onSubmit} />
+        <Button color={Theme.primary} title={'Cadastrar'} onPress={onSubmit} />
       </View>
     </Surface>
   );

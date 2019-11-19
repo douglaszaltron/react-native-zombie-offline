@@ -4,7 +4,7 @@ import {Spacing, Typography} from '../theme';
 import Theme from '../theme/Light';
 
 const StyledTextInput = props => {
-  const {labelText, error, value, ...rest} = props;
+  const {labelText, error, value, refFocus, ...rest} = props;
 
   return (
     <>
@@ -12,6 +12,7 @@ const StyledTextInput = props => {
         {labelText && value && <Text style={styles.label}>{labelText}</Text>}
         <TextInput
           {...rest}
+          ref={refFocus}
           style={styles.input}
           placeholderTextColor={Theme.mediumEmphasis}
           selectionColor={Theme.primary}
